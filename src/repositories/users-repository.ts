@@ -49,6 +49,12 @@ export class UsersRepository {
         })
     }
 
+    public async updateUserByNewPassword(id: string, newHashPassword: string): Promise<IUser | null> {
+        return this.userModel.findOneAndUpdate({_id: id}, {
+            password: newHashPassword
+        })
+    }
+
     public async updateUserByCode(id: string, code: string): Promise<IUser | null> {
         return this.userModel.findOneAndUpdate({_id: id}, {
             code: code

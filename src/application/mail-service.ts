@@ -1,10 +1,13 @@
 import {MailTransporter} from "../config/mail-transporte";
-import {userInvitationTemplate} from "../templates/mail-templates/user-invitation";
 
 export class MailService {
-    async sendConfirmMessageToEmail(to: string, code: string) {
-        let sendMessage = userInvitationTemplate(to, code)
-        const transporter = new MailTransporter()
-        transporter.send(sendMessage)
+    private transporter: MailTransporter;
+
+    constructor() {
+        this.transporter = new MailTransporter()
+    }
+
+    public async sendConfirmMessage(to: string, code: string, sendMessage: Function): Promise<void> {
+        this.transporter.send(sendMessage(to, code))
     }
 }

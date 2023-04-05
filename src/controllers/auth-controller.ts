@@ -168,5 +168,33 @@ export class AuthController {
             }
         }
     }
+
+    static async recoveryPassword(req: Request, res: Response) {
+        try {
+            const userService = new UserService();
+            const {email} = req.body
+            await userService.requestByRecovery(email)
+            res.sendStatus(204)
+        } catch (error) {
+            if (error instanceof Error) {
+                res.sendStatus(400);
+                console.log(error.message);
+            }
+        }
+    }
+
+    static async setupNewPassword(req: Request, res: Response) {
+        try {
+            const userService = new UserService();
+            const {newPassword, code} = req.body;
+            await userService.confirmNewPassword(newPassword, code);
+            res.sendStatus(204);
+        } catch (error) {
+            if (error instanceof Error) {
+                res.sendStatus(400);
+                console.log(error.message);
+            }
+        }
+    }
 }
 

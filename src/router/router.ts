@@ -54,11 +54,13 @@ router.get('/comments/:id', CommentController.getOneComment);
 /**Auth**/
 router.post('/auth/login', rateLimitGuard, AuthController.login);
 router.post('/auth/logout', AuthController.logout);
-router.post('/auth/registration-confirmation', rateLimitGuard, codeConfirmed, codeConfirmed, isErrorMiddleware, AuthController.confirmEmail);
+router.post('/auth/registration-confirmation', rateLimitGuard, codeConfirmed, isErrorMiddleware, AuthController.confirmEmail);
 router.post('/auth/registration', rateLimitGuard, userValidation, isErrorMiddleware, AuthController.registration);
 router.post('/auth/registration-email-resending', rateLimitGuard, emailExistValidation, isErrorMiddleware, AuthController.resendConfirm);
 router.get('/auth/me', authMiddleware, isErrorMiddleware, AuthController.me);
 router.post('/auth/refresh-token', AuthController.updatePairTokens);
+router.post('/auth/new-password', rateLimitGuard, isErrorMiddleware, AuthController.setupNewPassword);
+router.post('/auth/password-recovery', rateLimitGuard, emailExistValidation, isErrorMiddleware, AuthController.recoveryPassword);
 
 /**SecurityDevices**/
 router.get('/security/devices', SecurityController.getAllDevices);
