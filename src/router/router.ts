@@ -10,7 +10,7 @@ import {basicAuthorization} from "../authorizations/authorization";
 import {CommentController} from "../controllers/comment-controller";
 import {
     blogValidation, codeConfirmed,
-    commentValidation, emailExistValidation, emailValidationByPassword, passwordValidation,
+    commentValidation, emailExistValidation, emailValidationByNewPassword, newPasswordValidation,
     postValidation,
     postValidationWithoutBodyId, recoveryCodeConfirmed,
     userValidation
@@ -59,8 +59,8 @@ router.post('/auth/registration', rateLimitGuard, userValidation, isErrorMiddlew
 router.post('/auth/registration-email-resending', rateLimitGuard, emailExistValidation, isErrorMiddleware, AuthController.resendConfirm);
 router.get('/auth/me', authMiddleware, isErrorMiddleware, AuthController.me);
 router.post('/auth/refresh-token', AuthController.updatePairTokens);
-router.post('/auth/new-password', rateLimitGuard, recoveryCodeConfirmed, passwordValidation, isErrorMiddleware, AuthController.setupNewPassword);
-router.post('/auth/password-recovery', rateLimitGuard, isErrorMiddleware, AuthController.recoveryPassword);
+router.post('/auth/new-password', rateLimitGuard, recoveryCodeConfirmed, newPasswordValidation, isErrorMiddleware, AuthController.setupNewPassword);
+router.post('/auth/password-recovery', rateLimitGuard, emailValidationByNewPassword, isErrorMiddleware, AuthController.recoveryPassword);
 
 /**SecurityDevices**/
 router.get('/security/devices', SecurityController.getAllDevices);

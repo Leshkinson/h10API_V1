@@ -185,6 +185,13 @@ export const passwordValidation = body('password')
     .isLength({min: 6, max: 20})
     .withMessage("Password has incorrect value. (Content has less than 6 or more than 20 characters)")
 
+export const newPasswordValidation = body('newPassword')
+    .trim()
+    .isString()
+    .withMessage("Password has incorrect value. (Password doesn't string)")
+    .isLength({min: 6, max: 20})
+    .withMessage("Password has incorrect value. (Content has less than 6 or more than 20 characters)")
+
 export const emailValidation = body('email')
     .trim()
     .isString()
@@ -217,6 +224,13 @@ export const emailValidationByPassword = body('email')
     .custom(isNotExistEmail)
     .withMessage("Email is not exist. (This email not exists enter another email)")
 
+export const emailValidationByNewPassword = body('email')
+    .trim()
+    .isString()
+    .withMessage("Email has incorrect value. (Email doesn't string)")
+    .custom(isEmailPattern)
+    .withMessage("Email has incorrect value. (Email doesn't match pattern)")
+
 export const contentValidation = body('content')
     .trim()
     .isString()
@@ -237,6 +251,8 @@ export const recoveryCodeConfirmed = body('recoveryCode')
     .trim()
     .isString()
     .withMessage("Code has incorrect value. (Email doesn't string)")
+    .custom(isExistCode)
+    .withMessage("Code is not exist. (This Code not exists)")
 
 
 
