@@ -82,9 +82,9 @@ export class UserService {
         return false
     }
 
-    public async confirmNewPassword(newPassword: string, code: string): Promise<boolean | null| IUser> {
+    public async confirmNewPassword(newPassword: string, recoveryCode: string): Promise<boolean | null| IUser> {
         const hashNewPassword = await bcrypt.hash(newPassword, 5);
-        const user = await this.userRepository.findUserByCode(code);
+        const user = await this.userRepository.findUserByCode(recoveryCode);
         if (!user) return false;
         return await this.userRepository.updateUserByNewPassword((user._id).toString(), hashNewPassword);
     }
@@ -103,9 +103,9 @@ export class UserService {
         const mailService = new MailService()
         const user = await this.userRepository.findUserByEmail(email)
         if(user && user.isConfirmed) {
-            const code = uuidv4();
-            await this.userRepository.updateUserByCode((user._id).toString(), code);
-            await mailService.sendConfirmMessage(email, code, passwordConfirmedTemplate)
+            const recoveryCode = uuidv4();
+            await this.userRepository.updateUserByCode((user._id).toString(), recoveryCode);
+            await mailService.sendConfirmMessage(email, recoveryCode, passwordConfirmedTemplate)
         }
     }
 

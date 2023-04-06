@@ -186,8 +186,8 @@ export class AuthController {
     static async setupNewPassword(req: Request, res: Response) {
         try {
             const userService = new UserService();
-            const {newPassword, code} = req.body;
-            await userService.confirmNewPassword(newPassword, code);
+            const {newPassword, recoveryCode} = req.body;
+            await userService.confirmNewPassword(newPassword, recoveryCode);
             res.sendStatus(204);
         } catch (error) {
             if (error instanceof Error) {

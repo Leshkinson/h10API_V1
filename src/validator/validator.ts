@@ -208,6 +208,15 @@ export const emailExistValidation = body('email')
     .custom(isConfirmedEmail)
     .withMessage("Email is confirmed. (This email already confirmed)")
 
+export const emailValidationByPassword = body('email')
+    .trim()
+    .isString()
+    .withMessage("Email has incorrect value. (Email doesn't string)")
+    .custom(isEmailPattern)
+    .withMessage("Email has incorrect value. (Email doesn't match pattern)")
+    .custom(isNotExistEmail)
+    .withMessage("Email is not exist. (This email not exists enter another email)")
+
 export const contentValidation = body('content')
     .trim()
     .isString()
@@ -218,11 +227,17 @@ export const contentValidation = body('content')
 export const codeConfirmed = body('code')
     .trim()
     .isString()
-    .withMessage("Email has incorrect value. (Email doesn't string)")
+    .withMessage("Code has incorrect value. (Email doesn't string)")
     .custom(isConfirmedCode)
     .withMessage("Code is confirmed. (This code already confirmed)")
     .custom(isExistCode)
     .withMessage("Code is not exist. (This Code not exists)")
+
+export const recoveryCodeConfirmed = body('recoveryCode')
+    .trim()
+    .isString()
+    .withMessage("Code has incorrect value. (Email doesn't string)")
+
 
 
 export const blogValidation = [nameValidation, descriptionValidation, websiteUrlValidation];
